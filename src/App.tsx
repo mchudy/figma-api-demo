@@ -1,20 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import './App.css';
 import { loadStylesFromFigma } from './figma';
+import Loader from './Loader';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    loadStylesFromFigma();
+    loadStylesFromFigma().then(() => setIsLoading(false));
   }, []);
 
-  return <div className="App"></div>;
+  return (
+    <Container>
+      {isLoading && <Loader />}
+      {!isLoading && <div>Loaded</div>}
+    </Container>
+  );
 }
 
-const Title = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: palevioletred;
+const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default App;
